@@ -1,5 +1,8 @@
+const path = require('path')
 // We reuse this import in order to have access to the `body` property in requests
 const express = require("express");
+
+const favicon = require("serve-favicon")
 
 // ℹ️ Responsible for the messages you see in the terminal as requests are coming in
 // https://www.npmjs.com/package/morgan
@@ -26,6 +29,10 @@ module.exports = (app) => {
       origin: process.env.ORIGIN || "http://localhost:3000",
     })
   );
+
+  app.use(express.static(path.join(__dirname, "..", "public")))
+
+  app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
 
   // In development environment the app logs
   app.use(logger("dev"));
