@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom"
 import DetailsPageHeader from "./DetailsPageHeader"
 
-//Nos falta un link hacia detailsPageHeader, mirar navbar como ejemplo
+
 
 //axios.get(`${process.env.REACT_APP_SERVER_URL}/some-route`, { withCredentials: true });
 //!some-route que deberiamos poner?¿¿??¿
@@ -33,7 +33,7 @@ function Header(props){
         />
 
         <button >
-        <Link to={"/details/${url}"} > Details </Link>
+        <Link to={"/details"} > Details </Link>
         </button>
 
         </div>
