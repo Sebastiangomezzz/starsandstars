@@ -1,6 +1,7 @@
 import "../App.css";
 
-function HomePage() {
+function HomePage(props) {
+  const {nasaData} = props
   return (
     <div className="App">
      
@@ -9,3 +10,4 @@ function HomePage() {
 }
 
 export default HomePage;
+  

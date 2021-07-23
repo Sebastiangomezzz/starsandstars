@@ -1,112 +1,93 @@
-import React from "react";
-import { Switch } from "react-router-dom";
-import LoadingComponent from "./components/Loading";
-import Navbar from "./components/Navbar/Navbar";
-import HomePage from "./pages/HomePage";
-import LogIn from "./pages/LogIn";
-import ProtectedPage from "./pages/ProtectedPage";
-import Signup from "./pages/Signup";
-import NormalRoute from "./routing-components/NormalRoute";
-import ProtectedRoute from "./routing-components/ProtectedRoute";
-import { getLoggedIn, logout } from "./services/auth";
-import * as PATHS from "./utils/paths";
-import * as CONSTS from "./utils/consts";
+import React, { useState, useEffect } from 'react';
+import { Switch } from 'react-router-dom';
+import LoadingComponent from './components/Loading';
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './pages/HomePage';
+import LogIn from './pages/LogIn';
+import ProtectedPage from './pages/ProtectedPage';
+import Signup from './pages/Signup';
+import NormalRoute from './routing-components/NormalRoute';
+import ProtectedRoute from './routing-components/ProtectedRoute';
+import { getLoggedIn, logout } from './services/auth';
+import * as CONSTS from './utils/consts';
+import axios from "axios";
+import DetailsPageHeader from "./components/DetailsPageHeader"
 
-class App extends React.Component {
-  state = {
-    user: null,
-    isLoading: true,
-  };
 
-  componentDidMount = () => {
-    const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
-    if (!accessToken) {
-      return this.setState({
-        isLoading: false,
-      });
-    }
-    getLoggedIn(accessToken).then((res) => {
-      if (!res.status) {
-        console.log("RES IN CASE OF FAILURE", res);
-        // deal with failed backend call
-        return this.setState({
-          isLoading: false,
-        });
-      }
-      this.setState({
-        user: res.data.user,
-        isLoading: false,
-      });
-    });
-  };
+function App() {
+	const [user, setUser] = useState(null);
+  const [nasaData, setNasaData] = useState(null);
+   
+  useEffect(()=>{
+    axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu")
+    .then(res=>{
+        console.log(res)
+        const header = res.data
+        setNasaData(header)
+    })
+}, [])
 
-  handleLogout = () => {
-    const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
-    if (!accessToken) {
-      return this.setState({
-        user: null,
-        isLoading: false,
-      });
-    }
-    this.setState(
-      {
-        isLoading: true,
-      },
-      () => {
-        logout(accessToken).then((res) => {
-          if (!res.status) {
-            // deal with error here
-            console.error("💡 SOMETHING HAPPENED THAT HAS TO DEALT WITH", res);
-          }
+	useEffect(() => {
+		const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
+		if (!accessToken) {
+			setUser(null);
+		}
+		getLoggedIn(accessToken).then((res) => {
+			console.log(res);
+			if (!res.data) {
+				console.log('RES IN CASE OF FAILURE', res);
+				setUser(null);
+			} else {
+				setUser(res.data.user);
+			}
+		});
+	}, []);
+	const handleLogout = () => {
+		const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
+		if (!accessToken) {
+			setUser(null);
+		}
+		logout(accessToken).then((res) => {
+			if (!res.status) {
+				console.error('💡 SOMETHING HAPPENED THAT HAS TO DEALT WITH', res);
+			}
+      
+			localStorage.removeItem(CONSTS.ACCESS_TOKEN);
+			setUser(null);
+		});
+	};
 
-          localStorage.removeItem(CONSTS.ACCESS_TOKEN);
-          return this.setState({
-            isLoading: false,
-            user: null,
-          });
-        });
-      }
-    );
-  };
-
-  authenticate = (user) => {
-    this.setState({
-      user,
-    });
-  };
-
-  render() {
-    if (this.state.isLoading) {
-      return <LoadingComponent />;
-    }
-
-    return (
-      <div className="App">
-        <Navbar handleLogout={this.handleLogout} user={this.state.user} />
-        <Switch>
-          <NormalRoute exact path={PATHS.HOMEPAGE} component={HomePage} />
-          <NormalRoute
-            exact
-            path={PATHS.SIGNUPPAGE}
-            authenticate={this.authenticate}
-            component={Signup}
-          />
-          <NormalRoute
-            exact
-            path={PATHS.LOGINPAGE}
-            authenticate={this.authenticate}
-            component={LogIn}
-          />
-          <ProtectedRoute
-            exact
-            path={PATHS.PROTECTEDPAGE}
-            component={ProtectedPage}
-            user={this.state.user}
-          />
-        </Switch>
-      </div>
-    );
-  }
+	const authenticate = (user) => {
+		setUser(user);
+	};
+	return (
+		<div className='App'>
+			<Navbar handleLogout={handleLogout} user={user} />
+​       
+			<Switch>
+        <NormalRoute exact path={'/details'} component={DetailsPageHeader} nasaData={nasaData} />
+				<NormalRoute exact path={'/'} component={HomePage} nasaData={nasaData} />
+				<NormalRoute
+					exact
+					path={'/auth/signup'}
+					authenticate={authenticate}
+					component={Signup}
+				/>
+				<NormalRoute
+					exact
+					path={'/auth/login'}
+					authenticate={authenticate}
+					component={LogIn}
+				/>
+				<ProtectedRoute
+					exact
+					path={'/protected'}
+					component={ProtectedPage}
+					user={user}
+				/>
+			</Switch>
+		</div>
+	);
 }
 
 export default App;
