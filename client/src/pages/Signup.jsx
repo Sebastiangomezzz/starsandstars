@@ -29,12 +29,15 @@ export default class Signup extends Component {
     signup(credentials).then((res) => {
       // successful signup
       console.log(res);
-      if (!res.status) {
+      if (!res.data) {
+        console.log(res.errorMessage)
         // unsuccessful signup
+      }else{
+        localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
+        this.props.authenticate(res.data.user);
+        this.props.history.push(PATHS.HOMEPAGE);
       }
-      localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
-      this.props.authenticate(res.data.user);
-      this.props.history.push(PATHS.HOMEPAGE);
+      
     });
   };
 

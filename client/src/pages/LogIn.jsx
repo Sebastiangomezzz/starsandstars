@@ -26,12 +26,15 @@ export default class Login extends Component {
       password: this.state.password,
     };
     login(credentials).then((res) => {
-      if (!res.status) {
+      if (!res.data) {
+        console.log(res.errorMessage)
         // handle not great request
-      }
-      localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
+      }else{
+        localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
       this.props.authenticate(res.data.user);
       this.props.history.push(PATHS.HOMEPAGE);
+      }
+      
     });
   };
 
