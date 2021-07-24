@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import nextId from "react-id-generator";
+import Card from "./Card";
 
 
 
@@ -9,7 +11,7 @@ function CardsList(){
     
     
     useEffect(()=>{
-        axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu&count=20")
+        axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu&count=15")
         .then(res=>{
             console.log(res)
             const card = res.data
@@ -19,10 +21,17 @@ function CardsList(){
     
     return(
         <>
+        
         {cardState.map((forEachCard)=>{
-            return(
-                <div key={forEachCard.hdurl} >
-                    <img src={`${forEachCard.url}`} />                                        
+            const Id = nextId()        
+
+            return(       
+                <div key={Id}>
+                <img src={`${forEachCard.url}`} alt="card"/>
+                <Link to={`/details/:${Id}`}>See the details</Link>
+                <Card
+                forEachCard={forEachCard}
+                />    
                 </div>
             )
         })

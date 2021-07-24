@@ -12,6 +12,7 @@ import { getLoggedIn, logout } from './services/auth';
 import * as CONSTS from './utils/consts';
 import axios from "axios";
 import DetailsPageHeader from "./components/DetailsPageHeader"
+import Card from "./components/Card"
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
   useEffect(()=>{
     axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu")
     .then(res=>{
-        console.log(res)
+     
         const header = res.data
         setNasaData(header)
     })
@@ -65,7 +66,9 @@ function App() {
 			<Navbar handleLogout={handleLogout} user={user} />
 ​       
 			<Switch>
-        <NormalRoute exact path={'/details'} component={DetailsPageHeader} nasaData={nasaData} />
+				
+        		<NormalRoute exact path={'/daily-details'} component={DetailsPageHeader} nasaData={nasaData} />
+				<NormalRoute exact path={'/details/:id'} component={Card} />
 				<NormalRoute exact path={'/'} component={HomePage} nasaData={nasaData} />
 				<NormalRoute
 					exact
