@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import nextId from "react-id-generator";
-import Card from "./Card";
-
+import CardHelper from "./CardHelper";
 
 
 function CardsList(){
@@ -29,9 +28,9 @@ function CardsList(){
                 <div key={Id}>
                 <img src={`${forEachCard.url}`} alt="card"/>
                 <Link to={`/details/:${Id}`}>See the details</Link>
-                <Card
+                {/* <CardHelper
                 forEachCard={forEachCard}
-                />    
+                />     */}
                 </div>
             )
         })

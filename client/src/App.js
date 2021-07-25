@@ -17,16 +17,29 @@ import Card from "./components/Card"
 
 function App() {
 	const [user, setUser] = useState(null);
-  const [nasaData, setNasaData] = useState(null);
+  	const [nasaData, setNasaData] = useState(null);
+	const [cardData, setCardData] = useState(null);
    
   useEffect(()=>{
     axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu")
     .then(res=>{
-     
+		
         const header = res.data
         setNasaData(header)
     })
 }, [])
+
+
+useEffect(()=>{
+    axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu&count=15")
+    .then(res=>{
+		console.log(res)
+        const cardDetails = res.data
+        setCardData(cardDetails)
+    })
+}, [])
+
+
 
 	useEffect(() => {
 		const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
@@ -68,7 +81,7 @@ function App() {
 			<Switch>
 				
         		<NormalRoute exact path={'/daily-details'} component={DetailsPageHeader} nasaData={nasaData} />
-				<NormalRoute exact path={'/details/:id'} component={Card} />
+				<NormalRoute exact path={'/details/:id'} component={Card} cardData={cardData}/>
 				<NormalRoute exact path={'/'} component={HomePage} nasaData={nasaData} />
 				<NormalRoute
 					exact
