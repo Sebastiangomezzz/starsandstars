@@ -3,7 +3,9 @@ import axios from 'axios'
 
 {/* { title, description } */}
 
-function AddSuggestion(){
+function AddSuggestion(props){
+
+    const {user} = props
 
     const initialFormState = {name: '', comment: ''}
 
@@ -27,7 +29,7 @@ function AddSuggestion(){
         event.preventDefault()
         const {name, comment} = formState
 
-        axios.post('http://localhost:5000/api/projects', {name, comment})
+        axios.post('http://localhost:5005/api/suggestions', {name, comment, user: user._id})
         .then(setFormState(initialFormState))
         .catch(err=>console.log(err))
     }

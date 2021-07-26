@@ -3,18 +3,11 @@ import * as CONSTS from "../utils/consts";
 
 // here we are just maing our code look more DRY. With every backend call we must deal with errors and success states. The idea of creating these kinds of services is to make our lives easier in the components
 function internalServerError(err) {
-  console.log("err:", err.response.data);
-  if (err.response && err.response.data && err.response.data.errorMessage) {
-    return {
-      status: false,
-      errorMessage: err.response.data.errorMessage,
-    };
-  }
-  return {
+   return {
     status: false,
     errorMessage: "Internal server error. Please check your server",
   };
-}
+ }
 
 function successStatus(res) {
   return {

@@ -1,83 +1,78 @@
-import React, { Component } from "react";
-import { login } from "../services/auth";
-import "./Signup";
-import * as CONSTS from "../utils/consts";
-import * as PATHS from "../utils/paths";
+import React, { useState } from 'react';
+import { login } from '../services/auth';
+import './Signup';
+import * as CONSTS from '../utils/consts';
 
-export default class Login extends Component {
-  state = {
-    username: "",
-    password: "",
-    error: null,
-  };
+function LogIn(props) {
+	const { authenticate } = props;
 
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+	const initialState = {
+		username: '',
+		password: ''
+	};
 
-  handleFormSubmission = (event) => {
-    event.preventDefault();
+	const [formData, setFormData] = useState(initialState);
 
-    const credentials = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    login(credentials).then((res) => {
-      if (!res.data) {
-        console.log(res.errorMessage)
-        // handle not great request
-      }else{
-        localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
-      this.props.authenticate(res.data.user);
-      this.props.history.push(PATHS.HOMEPAGE);
-      }
-      
-    });
-  };
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setFormData({
+			...formData,
+			[name]: value
+		});
+	};
 
-  render() {
-    return (
-      <div>
-        <h1>Log In</h1>
-        <form onSubmit={this.handleFormSubmission} className="signup__form">
-          <label htmlFor="input-username">Username</label>
-          <input
-            id="input-username"
-            type="text"
-            name="username"
-            placeholder="username"
-            value={this.state.username}
-            onChange={this.handleInputChange}
-            required
-          />
+	const handleSubmit = (event) => {
+		event.preventDefault();
 
-          <label htmlFor="input-password">Password</label>
-          <input
-            id="input-password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleInputChange}
-            required
-            minLength="8"
-          />
+		const credentials = {
+			username: formData.username,
+			password: formData.password
+		};
 
-          {this.state.error && (
-            <div className="error-block">
-              <p>There was an error submiting the form:</p>
-              <p>{this.state.error.message}</p>
-            </div>
-          )}
+		login(credentials).then((res) => {
+			if (!res.data) {
+				console.log('error');
+			}else{
+      localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
+			authenticate(res.data.user);
+			props.history.push('/');
+      }	
+		});
+	};
 
-          <button className="button__submit" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
-    );
-  }
+	return (
+		<div>
+			<h1>Log In</h1>
+			<form onSubmit={handleSubmit} className='signup__form'>
+				<label htmlFor='input-username'>Username</label>
+				<input
+					id='input-username'
+					type='text'
+					name='username'
+					placeholder='Username'
+					value={formData.username}
+					onChange={handleChange}
+					required
+				/>
+
+				<label htmlFor='input-password'>Password</label>
+				<input
+					id='input-password'
+					type='password'
+					name='password'
+					placeholder='Password'
+					value={formData.password}
+					onChange={handleChange}
+					required
+					minLength='8'
+				/>
+
+				<button className='button__submit' type='submit'>
+					Submit
+				</button>
+			</form>
+		</div>
+	);
 }
+
+export default LogIn;

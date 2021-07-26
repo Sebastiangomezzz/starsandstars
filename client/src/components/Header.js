@@ -19,17 +19,17 @@ import DetailsPageHeader from "./DetailsPageHeader"
 
 
 function Header(props){
-      const {nasaData} = props
+      const {data} = props
           
     return(
-        <>
+        <div>
         {
-        nasaData &&            
-        <div className= "header">
-        <img src= {`${nasaData.hdurl}`} alt='pic of the day'/>
-        <DetailsPageHeader
-            headerState={nasaData}
-        />
+        data &&            
+        <div className= "homepage">
+        <img src= {`${data.hdurl}`} alt='pic of the day'/>
+        {/* <DetailsPageHeader
+            data={data}
+        /> */}
 
         <button >
         <Link to={"/daily-details"} > Details </Link>
@@ -38,7 +38,7 @@ function Header(props){
         </div>
         
         }
-        </>
+        </div>
     )
 }
 

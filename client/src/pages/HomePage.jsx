@@ -2,16 +2,18 @@ import React from "react"
 import Header from "../components/Header"
 import "../App.css";
 import CardsList from "../components/CardsList";
+import AddSuggestion from "../components/AddSuggestion";
+import Footer from "../components/Footer/Footer";
 
 function HomePage(props) {
-  const {nasaData} = props
+  const {dailyPic, setSelectedPic, latestPicsList, user} = props
   return (
-    <div className="App">
-      <Header nasaData={nasaData}/>
-      <CardsList/>
-
-      
-    </div>
+    <>
+      <Header data={dailyPic}/>
+      <CardsList data={latestPicsList} setSelectedPic={setSelectedPic}/>
+      {user && <AddSuggestion user={user}/>}
+      <Footer/>
+    </>
   );
 }
 

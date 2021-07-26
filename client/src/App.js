@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import LoadingComponent from './components/Loading';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/HomePage';
@@ -13,19 +13,20 @@ import * as CONSTS from './utils/consts';
 import axios from "axios";
 import DetailsPageHeader from "./components/DetailsPageHeader"
 import Card from "./components/Card"
+import CardsList from './components/CardsList';
 
 
 function App() {
 	const [user, setUser] = useState(null);
-  	const [nasaData, setNasaData] = useState(null);
-	const [cardData, setCardData] = useState(null);
+  	const [dailyPic, setDailyPic] = useState(null);
+	const [latestPicsList, setLatestPicsList] = useState([]);
+	const [selectedPic, setSelectedPic] = useState(null);
    
+	//ponemos la foto del dia
   useEffect(()=>{
     axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu")
     .then(res=>{
-		
-        const header = res.data
-        setNasaData(header)
+        setDailyPic(res.data)
     })
 }, [])
 
@@ -33,13 +34,9 @@ function App() {
 useEffect(()=>{
     axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu&count=15")
     .then(res=>{
-		console.log(res)
-        const cardDetails = res.data
-        setCardData(cardDetails)
+        setLatestPicsList(res.data)
     })
 }, [])
-
-
 
 	useEffect(() => {
 		const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
@@ -56,6 +53,8 @@ useEffect(()=>{
 			}
 		});
 	}, []);
+
+
 	const handleLogout = () => {
 		const accessToken = localStorage.getItem(CONSTS.ACCESS_TOKEN);
 		if (!accessToken) {
@@ -71,30 +70,44 @@ useEffect(()=>{
 		});
 	};
 
+
 	const authenticate = (user) => {
 		setUser(user);
 	};
+
+
 	return (
 		<div className='App'>
 			<Navbar handleLogout={handleLogout} user={user} />
 ​       
 			<Switch>
-				
-        		<NormalRoute exact path={'/daily-details'} component={DetailsPageHeader} nasaData={nasaData} />
-				<NormalRoute exact path={'/details/:id'} component={Card} cardData={cardData}/>
-				<NormalRoute exact path={'/'} component={HomePage} nasaData={nasaData} />
+	
+				{/* <NormalRoute exact path={'/latest-pics/'} render={(props)=><CardsList {...props} setSelectedPic={setSelectedPic} />}/> */}
+
+				<Route exact path={'/details'} render={(props)=><Card {...props} data={selectedPic} />}/> 
+				<NormalRoute exact path={'/daily-details'} component={DetailsPageHeader} data={dailyPic} />
+				<NormalRoute exact path={'/'}
+				   component={HomePage}
+				   dailyPic={dailyPic}
+				   setSelectedPic={setSelectedPic}
+				   latestPicsList={latestPicsList}
+				   user={user}
+				/>
+
 				<NormalRoute
 					exact
 					path={'/auth/signup'}
 					authenticate={authenticate}
 					component={Signup}
 				/>
+
 				<NormalRoute
 					exact
 					path={'/auth/login'}
 					authenticate={authenticate}
 					component={LogIn}
 				/>
+
 				<ProtectedRoute
 					exact
 					path={'/protected'}

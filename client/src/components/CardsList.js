@@ -1,44 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {Link} from "react-router-dom";
-import axios from "axios";
-import nextId from "react-id-generator";
-import CardHelper from "./CardHelper";
+import Card from './Card'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+import SaveToCollection from "./SaveToCollection";
 
 
-function CardsList(){
-    const [cardState, setCardState] = useState([])
-    
-    
-    useEffect(()=>{
-        axios.get("https://api.nasa.gov/planetary/apod?api_key=4nNodO7eptWEC8F8NiG9XcA3x5A4AYqADrniZGFu&count=15")
-        .then(res=>{
-            console.log(res)
-            const card = res.data
-            setCardState(card)
-        })
-    }, [])
-    
+function CardsList(props){
+    const { data, setSelectedPic } = props
+  
     return(
-        <>
-        
-        {cardState.map((forEachCard)=>{
-            const Id = nextId()        
-
-            return(       
-                <div key={Id}>
-                <img src={`${forEachCard.url}`} alt="card"/>
-                <Link to={`/details/:${Id}`}>See the details</Link>
-                {/* <CardHelper
-                forEachCard={forEachCard}
-                />     */}
-                </div>
-            )
-        })
-        }
-        
-
-
-        </>
+        <div className= "homepage list">
+            
+            {data.map((onePic)=>{
+                console.log(onePic)
+                return(
+                    <>
+                    <Zoom>
+                       <img src={onePic.url} alt={"card-detail-img"}/>
+                     </Zoom>
+                     <Link to={"/details"} onClick={()=>setSelectedPic(onePic)}>
+                       <p>See details</p>
+                     </Link>
+                     <SaveToCollection/>
+                     </>
+                    )
+            })
+            }
+            
+        </div>
     )
 }
 

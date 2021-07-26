@@ -1,97 +1,93 @@
-import React, { Component } from "react";
-import { signup } from "../services/auth";
-import "./auth.css";
-import * as CONSTS from "../utils/consts";
-import * as PATHS from "../utils/paths";
+import React, { useState } from 'react';
+import { signup } from '../services/auth';
+import './auth.css';
+import * as CONSTS from '../utils/consts';
+import * as PATHS from '../utils/paths';
 
-export default class Signup extends Component {
-  state = {
-    username: "",
-    password: "",
-    email: "",
-    error: null
-  };
+function Signup(props) {
+	const initialState = {
+		username: '',
+		email: '',
+		password: ''
+	};
 
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+	const [formData, setFormData] = useState(initialState);
 
-  handleFormSubmission = (event) => {
-    event.preventDefault();
-    const credentials = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    };
-    signup(credentials).then((res) => {
-      // successful signup
-      console.log(res);
-      if (!res.data) {
-        console.log(res.errorMessage)
-        // unsuccessful signup
-      }else{
-        localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
-        this.props.authenticate(res.data.user);
-        this.props.history.push(PATHS.HOMEPAGE);
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setFormData({
+			...formData,
+			[name]: value
+		});
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		const credentials = {
+			username: formData.username,
+			password: formData.password,
+			email: formData.email
+		};
+
+		signup(credentials).then((res) => {
+			// successful signup
+			console.log(res);
+			if (!res.data) { 
+				console.log('error');
+			} else{
+    	localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
+			props.authenticate(res.data.user);
+			props.history.push(PATHS.HOMEPAGE);
       }
-      
-    });
-  };
+		
+		});
+	};
 
-  render() {
-    return (
-      <div>
-        <h1>Sign Up</h1>
-        <form onSubmit={this.handleFormSubmission} className="auth__form">
-          <label htmlFor="input-username">Username</label>
-          <input
-            id="input-username"
-            type="text"
-            name="username"
-            placeholder="Text"
-            value={this.state.username}
-            onChange={this.handleInputChange}
-            required
-          />
+	return (
+		<div>
+			<h1>Sign Up</h1>
+			<form onSubmit={handleSubmit} className='auth__form'>
+				<label htmlFor='input-username'>Username</label>
+				<input
+					id='input-username'
+					type='text'
+					name='username'
+					placeholder='Username'
+					value={formData.username}
+					onChange={handleChange}
+					required
+				/>
 
-          <label htmlFor="input-password">Password</label>
-          <input
-            id="input-password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleInputChange}
-            required
-            minLength="8"
-          />
+				<label htmlFor='input-username'>Email</label>
+				<input
+					id='input-email'
+					type='text'
+					name='email'
+					placeholder='Your Email'
+					value={formData.email}
+					onChange={handleChange}
+					required
+				/>
 
-          <label htmlFor="input-password">Email</label>
-          <input
-            id="input-email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={this.handleInputChange}
-            required
-          />
+				<label htmlFor='input-password'>Password</label>
+				<input
+					id='input-password'
+					type='password'
+					name='password'
+					placeholder='Password'
+					value={formData.password}
+					onChange={handleChange}
+					required
+					minLength='8'
+				/>
 
-          {this.state.error && (
-            <div className="error-block">
-              <p>There was an error submiting the form:</p>
-              <p>{this.state.error.message}</p>
-            </div>
-          )}
-
-          <button className="button__submit" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
-    );
-  }
+				<button className='button__submit' type='submit'>
+					Submit
+				</button>
+			</form>
+		</div>
+	);
 }
+
+export default Signup;
