@@ -10,7 +10,7 @@ function HomePage(props) {
   return (
     <>
       <Header data={dailyPic}/>
-      <CardsList data={latestPicsList} setSelectedPic={setSelectedPic}/>
+      <CardsList data={latestPicsList} setSelectedPic={setSelectedPic} user={user}/>
       {user && <AddSuggestion user={user}/>}
       {/* <Footer/> */}
     </>

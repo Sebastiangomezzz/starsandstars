@@ -14,6 +14,7 @@ import axios from "axios";
 import DetailsPageHeader from "./components/DetailsPageHeader"
 import Card from "./components/Card"
 import CardsList from './components/CardsList';
+import Favorites from './components/Favorites'
 
 
 function App() {
@@ -83,7 +84,11 @@ useEffect(()=>{
 			<Switch>
 	
 				{/* <NormalRoute exact path={'/latest-pics/'} render={(props)=><CardsList {...props} setSelectedPic={setSelectedPic} />}/> */}
-
+				<NormalRoute
+					exact
+					path={'/favorites'}
+					component={Favorites}
+				/>
 				<Route exact path={'/details'} render={(props)=><Card {...props} data={selectedPic} />}/> 
 				<NormalRoute exact path={'/daily-details'} component={DetailsPageHeader} data={dailyPic} />
 				<NormalRoute exact path={'/'}

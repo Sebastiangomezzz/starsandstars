@@ -3,11 +3,11 @@ import {Link} from "react-router-dom";
 import Card from './Card'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
-import SaveToCollection from "./SaveToCollection";
+import Favorites from "./Favorites";
 
 
 function CardsList(props){
-    const { data, setSelectedPic } = props
+    const { data, setSelectedPic, user } = props
   
     return(
         <div className= "homepage list">
@@ -22,7 +22,7 @@ function CardsList(props){
                      <Link to={"/details"} onClick={()=>setSelectedPic(onePic)}>
                        <p>See details</p>
                      </Link>
-                     <SaveToCollection/>
+                     <Favorites  selectedPic={onePic} user={user} />
                      </>
                     )
             })
