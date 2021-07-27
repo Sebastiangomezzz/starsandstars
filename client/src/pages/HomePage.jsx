@@ -12,7 +12,7 @@ function HomePage(props) {
       <Header data={dailyPic}/>
       <CardsList data={latestPicsList} setSelectedPic={setSelectedPic}/>
       {user && <AddSuggestion user={user}/>}
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 }
