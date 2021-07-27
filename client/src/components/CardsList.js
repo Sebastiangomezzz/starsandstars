@@ -13,7 +13,6 @@ function CardsList(props){
         <div className= "homepage list">
             
             {data.map((onePic)=>{
-                console.log(onePic)
                 return(
                     <>
                     <Zoom>

@@ -19,7 +19,6 @@ const favoritesService = axios.create({
 });
 
 export function constellation(Id, favorite) {
-  console.log(favorite, Id)
     return favoritesService
       .put(`/${Id}`, favorite)
       .then(successStatus)

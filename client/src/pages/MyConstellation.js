@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { arrayOfFavorites } from '../services/favorites';
 
 
 
 export default function MyConstellation(props) {
+
+    const [favoritesArray, setFavoritesArray] = useState([])
 
 
     let Id 
@@ -17,21 +19,44 @@ export default function MyConstellation(props) {
 
         arrayOfFavorites(Id)
         .then((res)=>{
-        
-            console.log(res.data)
+        const array = res.data
+        setFavoritesArray(array)     
+
             
-            }
-        )  
+        })  
     }
 
     useEffect(()=>{
         handleFav()
+
+        
+        
     }, [Id])
 
       
     return (
         <div>
-            <h1>Hola que ase</h1>
+            {favoritesArray.map((element)=>{
+                return(
+                    <div key={element.url}>
+                        <img src={element.hdurl} alt="card-detail-img"/>
+
+                        <div className="detail-title">
+                            <p className="detail-title">{element.title}</p>
+                        </div>
+
+                        <div className="detail-line-1">
+                            <p className="detail-explanation">{element.explanation} </p>
+                        </div>
+
+                        <div className="detail-line-2">
+                            <p className="detail-tagline">{element.date}</p>
+                        </div>
+                    </div>
+                )
+                
+            }) 
+            }      
         </div>
     )
     
