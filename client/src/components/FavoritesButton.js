@@ -3,14 +3,14 @@ import App from '../App';
 import { constellation } from '../services/favorites'
 
 
-export default function Favorites(props){
+export default function FavoritesButton(props){
 
 const { selectedPic } = props;
 let Id 
 if(props.user){
   Id = props.user._id
 }
-console.log(selectedPic)
+console.log(Id)
 
 function handleSave(){
   
@@ -21,10 +21,11 @@ function handleSave(){
 
 }
 
+
 return(
 <div> 
   <button onClick={handleSave}>
-  Save to My Favorites
+  Add to My Constellation
   </button>
 </div>
 )

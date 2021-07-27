@@ -27,13 +27,10 @@ export function constellation(Id, favorite) {
   
 }
 
-const arrayOfFavoritesService = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URL}/myconstellations`,
-});
-
-export function arrayOfFavorites(Id)  {
- return arrayOfFavoritesService
-    .get(`/${Id}`)
-    .then(successStatus)
-    .catch(internalServerError);
-}
+export function arrayOfFavorites(Id){
+  return favoritesService
+     .get(`/${Id}`)
+     .then(successStatus)
+     .catch(internalServerError);
+ }
+ 

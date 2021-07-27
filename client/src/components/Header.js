@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom"
-import DetailsPageHeader from "./DetailsPageHeader"
+import DetailsPageHeader from "../pages/DetailsPageHeader"
 
 
 

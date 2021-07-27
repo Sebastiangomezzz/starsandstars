@@ -1,9 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import Card from './Card'
+import Card from '../pages/Card'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
-import Favorites from "./Favorites";
+import FavoritesButton from "./FavoritesButton";
 
 
 function CardsList(props){
@@ -22,7 +22,7 @@ function CardsList(props){
                      <Link to={"/details"} onClick={()=>setSelectedPic(onePic)}>
                        <p>See details</p>
                      </Link>
-                     <Favorites  selectedPic={onePic} user={user} />
+                     <FavoritesButton  selectedPic={onePic} user={user} />
                      </>
                     )
             })
