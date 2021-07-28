@@ -35,12 +35,9 @@ module.exports = (app) => {
   app.use(express.static(path.join(__dirname, "..", "public")))
 
   app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
-<<<<<<< HEAD
-=======
 
   
   
->>>>>>> 76f25a0676552bdaddd35e8be9e8000cdaed81b9
   // In development environment the app logs
   app.use(logger("dev"));
   // To have access to `body` property in the request
