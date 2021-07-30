@@ -58,9 +58,9 @@ const Search = () => {
 
   return (
     <div>
-      <div className="box">
+      
         <div className="container-1">
-          <label>Search Term</label>
+          <label>Search Term On Wikipedia</label>
           <input
             className="input"
             value={term}
@@ -68,8 +68,8 @@ const Search = () => {
           />
           <button className="form-btn" onClick={handleClearSearch}>Clear</button>
         </div>
-      </div>
-      <div className="ui celled list">{searchResultsMapped}</div>
+      
+      <div className="ui-list">{searchResultsMapped}</div>
     </div>
   );
 };

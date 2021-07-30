@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { login } from '../services/auth';
 import './Signup';
 import * as CONSTS from '../utils/consts';
+import { toast } from 'react-toastify';
 
 function LogIn(props) {
 	const { authenticate } = props;
@@ -32,6 +33,7 @@ function LogIn(props) {
 		login(credentials).then((res) => {
 			if (!res.data) {
 				console.log('error');
+				toast("Your credentials are invalid")				
 			}else{
       localStorage.setItem(CONSTS.ACCESS_TOKEN, res.data.accessToken);
 			authenticate(res.data.user);
@@ -41,36 +43,43 @@ function LogIn(props) {
 	};
 
 	return (
-		<div>
-			<h1>Log In</h1>
-			<form onSubmit={handleSubmit} className='signup__form'>
-				<label htmlFor='input-username'>Username</label>
-				<input
-					id='input-username'
-					type='text'
-					name='username'
-					placeholder='Username'
-					value={formData.username}
-					onChange={handleChange}
-					required
-				/>
-
-				<label htmlFor='input-password'>Password</label>
-				<input
-					id='input-password'
-					type='password'
-					name='password'
-					placeholder='Password'
-					value={formData.password}
-					onChange={handleChange}
-					required
-					minLength='8'
-				/>
-
-				<button className='form-btn' type='submit'>
-					Submit
-				</button>
-			</form>
+		<div className="login">
+			<div className="login-container">
+				<h1>Log In</h1>
+				<br />
+				<form onSubmit={handleSubmit} className='signup__form'>
+					<div className="username-space">
+						<label htmlFor='input-username'>Username</label>
+						<br />
+						<input
+							id='input-username'
+							type='text'
+							name='username'
+							placeholder='Username'
+							value={formData.username}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					
+					<div className="password-space">
+						<label htmlFor='input-password'>Password</label>
+						<input
+							id='input-password'
+							type='password'
+							name='password'
+							placeholder='Password'
+							value={formData.password}
+							onChange={handleChange}
+							required
+							minLength='8'
+						/>
+					</div>
+					<button className='form-btn' type='submit'>
+						Submit
+					</button>
+				</form>
+			</div>
 		</div>
 	);
 }

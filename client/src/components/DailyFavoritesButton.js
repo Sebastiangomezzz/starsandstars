@@ -1,6 +1,7 @@
 import React from 'react'
 import App from '../App';
 import { constellation } from '../services/favorites'
+import { toast } from 'react-toastify';
 
 
 
@@ -19,6 +20,7 @@ function handleSave(){
   
     constellation(Id, data)
     .then((res)=>{
+      toast("You added it!")
       console.log(res)
     })
 
@@ -27,7 +29,7 @@ function handleSave(){
 
 return(
 <div> 
-  <button className="form-btn" onClick={handleSave}>
+  <button className="new-btn" onClick={handleSave}>
   Add to My Constellation
   </button>
 </div>

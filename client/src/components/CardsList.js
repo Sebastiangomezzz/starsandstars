@@ -12,15 +12,17 @@ function CardsList(props){
     const arrayWithoutVideos = data.filter(item=>!item.url.includes('youtube')  && !item.url.includes('vimeo') && !item.url.includes('ustream'))
 
     return(
-        <div className= "gallery-container">
+        <div className="gallery-container">
             
             {arrayWithoutVideos.map((onePic)=>{
         
 
                 return(
                     <div className='gallery-div'>
-                    <Zoom>
+                    <Zoom overlayBgColorEnd="rgba(0, 0, 0, 0.75)"
+                        overlayBgColorStart="rgba(0, 0, 0, 0)">
                        <img className='gallery-img' src={onePic.url} alt={"card-detail-img"}/>
+
                      </Zoom>
                      <Link className='details-link' to={"/details"} onClick={()=>setSelectedPic(onePic)}>
                        <p>See details</p>

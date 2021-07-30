@@ -5,7 +5,6 @@ import Search from "../components/Search"
 export default function DetailsPageHeader(props){
     
     const {data} = props
-    console.log(props, "linea 8")
 
     return(
       
@@ -14,20 +13,23 @@ export default function DetailsPageHeader(props){
         {
         data && 
         <div className="img-detail">
-
-            <div className='img-container'>
-            <img className= "header-pic" src={data.hdurl} alt="today-img"/>
-            </div>
-
+            <br/>
             <div className="detail-title">
                 <p className="detail-title">{data.title}</p>
             </div>
+           
+            <div className='img-container'>
+                <img className= "header-pic" src={data.hdurl} alt="today-img"/>
+            </div>
+
+            
         
             <div className="detail-line-1">
-            <p className="detail-explanation">{data.explanation}</p>
+                <p className="detail-explanation">{data.explanation}</p>
             </div>
             <div className="detail-line-2">
-                <p className="detail-tagline">{data.date}</p>
+                <p className="detail-tagline">Photo taken on {data.date}
+                </p>
             </div>
         </div>
         }

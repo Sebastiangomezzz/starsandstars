@@ -25,7 +25,7 @@ export default function FavoritesButton(props){
     
     return(
     <div> 
-      <button className= "form-btn" onClick={handleSave}>
+      <button className= "constellation-btn" onClick={handleSave}>
       Add to My Constellation
       </button>
     </div>

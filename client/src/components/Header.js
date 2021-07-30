@@ -6,6 +6,7 @@ import DailyFavoritesButton from "../components/DailyFavoritesButton"
 
 
 
+
 //axios.get(`${process.env.REACT_APP_SERVER_URL}/some-route`, { withCredentials: true });
 //!some-route que deberiamos poner?¿¿??¿
 
@@ -25,12 +26,15 @@ function Header(props){
 
     return(
         <div>
+            <h1> A STAR, EVERYDAY </h1>
         {
         data &&            
         <div className= "header">
-        
+
         <div className='img-container'>
+        
         <img className= "header-pic" src= {`${data.hdurl}`} alt='pic of the day'/>
+        
         </div>
         {/* <DetailsPageHeader
             data={data}
@@ -43,8 +47,11 @@ function Header(props){
         </div>
         
         }
-       
-        <DailyFavoritesButton  data={data} user={user} />
+        
+        {
+            user &&
+            <DailyFavoritesButton  data={data} user={user} />
+        }
        
         </div>
 

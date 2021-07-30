@@ -45,47 +45,52 @@ function Signup(props) {
 	};
 
 	return (
-		<div>
-			<h1>Sign Up</h1>
-			<form onSubmit={handleSubmit} className='auth__form'>
-				<label htmlFor='input-username'>Username</label>
-				<input
-					id='input-username'
-					type='text'
-					name='username'
-					placeholder='Username'
-					value={formData.username}
-					onChange={handleChange}
-					required
-				/>
-
-				<label htmlFor='input-username'>Email</label>
-				<input
-					id='input-email'
-					type='email'
-					name='email'
-					placeholder='Your Email'
-					value={formData.email}
-					onChange={handleChange}
-					required
-				/>
-
-				<label htmlFor='input-password'>Password</label>
-				<input
-					id='input-password'
-					type='password'
-					name='password'
-					placeholder='Password'
-					value={formData.password}
-					onChange={handleChange}
-					required
-					minLength='8'
-				/>
-
-				<button className='form-btn' type='submit'>
-					Submit
-				</button>
-			</form>
+		<div className="login">
+			<div className="login-container">
+				<h1>Sign Up</h1>
+				<form onSubmit={handleSubmit} className='auth__form'>
+					<div className="signup-username-space">
+						<label htmlFor='input-username'>Username</label>
+						<input
+							id='input-username'
+							type='text'
+							name='username'
+							placeholder='Username'
+							value={formData.username}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					<div className="signup-email-space">
+						<label htmlFor='input-username'>Email</label>
+						<input
+							id='input-email'
+							type='email'
+							name='email'
+							placeholder='Your Email --> example@email.com'
+							value={formData.email}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					<div className="signup-password-space">
+						<label htmlFor='input-password'>Password</label>
+						<input
+							id='input-password'
+							type='password'
+							name='password'
+							placeholder='Password (min 8 characters)'
+							value={formData.password}
+							onChange={handleChange}
+							required
+							minLength='8'
+						/>
+					</div>
+					<button className='form-btn' type='submit'>
+						Submit
+					</button>
+				</form>
+			</div>
 		</div>
 	);
 }
