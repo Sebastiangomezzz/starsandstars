@@ -6,6 +6,8 @@ import 'react-medium-image-zoom/dist/styles.css'
 import FavoritesButton from "./FavoritesButton";
 
 
+
+
 function CardsList(props){
     const { data, setSelectedPic, user } = props
   
